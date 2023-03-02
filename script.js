@@ -56,15 +56,7 @@ function sortArray(arr){
 
     
 }
-const prettyPrint = (node, prefix = '', isLeft = true) => {
-    if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-    }
-    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-    if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-    }
-  }
+
 
 
 
@@ -79,29 +71,102 @@ class Node{
 }
 
 
-
-
-
-function balancedBST(arr, start, stop){
-   
-    if(start===0 && stop===arr.length-1){
-        arr = checkArray(arr)
-        start = 0
-        stop = arr.length-1
-        console.log(arr)
+class Tree{
+    constructor(array){
+        
+        this.root = this.buildTree(array,0,array.length-1)
+        this.length = null
     }
-    if(start>stop) return null
-    
-    let mid = Math.floor((start+stop)/2)
 
-    let node = new Node(arr[mid])
-    node.left = balancedBST(arr,start,mid-1)
-    node.right = balancedBST(arr,mid+1,stop)
-    return node
+    buildTree(arr, start, stop){
+   
+        if(start===0 && stop===arr.length-1){
+            arr = checkArray(arr)
+            this.length = arr.length
+            start = 0
+            stop = arr.length-1
+            console.log(arr)
+        }
+        if(start>stop) return null
+        
+        let mid = Math.floor((start+stop)/2)
+    
+        let node = new Node(arr[mid])
+        node.left = this.buildTree(arr,start,mid-1)
+        node.right = this.buildTree(arr,mid+1,stop)
+        return node
+    }
+
+    print(node=this.root, prefix = '', isLeft = true){
+      if(node===null) return
+      if (node.right !== null) {
+        this.print(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+      }
+      console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+      if (node.left !== null) {
+        this.print(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+      }
+    }
+
+    insertValue(value,root=this.root){
+      if(root===null){
+        this.root = new Node(value)
+        return
+      }
+      let current = root
+      if(value>current.data){
+        if(current.right!==null){
+          current = current.right
+          this.insertValue(value,current)
+        }else{
+          const newNode = new Node(value)
+          current.right = newNode
+        }
+      }
+      else if(value<current.data){
+        if(current.left!==null){
+          current = current.left
+          this.insertValue(value,current)
+        }else{
+          const newNode = new Node(value)
+          current.left = newNode
+        }
+      }
+      else if(value===current.data){
+        console.log('You cant insert ',value, 'its been already inserted')
+        this.print
+      }
+
+      
+    }
+
+    search(root,value){
+
+    }
+
 }
 
 
 
+
+
        
-let arr = [0,1,9,21,3,4]
-prettyPrint(balancedBST(arr,0,arr.length-1))
+let arr = []
+const tree1 = new Tree(arr)
+tree1.print()
+console.log('---------------')
+tree1.insertValue(31)
+tree1.print()
+console.log('---------------')
+tree1.insertValue(0)
+tree1.print()
+console.log('---------------')
+tree1.insertValue(4)
+tree1.print()
+console.log('---------------')
+tree1.insertValue(1)
+tree1.print()
+console.log('---------------')
+tree1.insertValue(34)
+tree1.print()
+console.log('---------------')
