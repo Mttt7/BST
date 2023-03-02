@@ -56,6 +56,15 @@ function sortArray(arr){
 
     
 }
+const prettyPrint = (node, prefix = '', isLeft = true) => {
+    if (node.right !== null) {
+      prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+    }
+    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+    if (node.left !== null) {
+      prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+    }
+  }
 
 
 
@@ -69,11 +78,30 @@ class Node{
     }
 }
 
-function balancedBTS(arr, start, stop){
-    arr = checkArray(arr)
+
+
+
+
+function balancedBST(arr, start, stop){
+   
+    if(start===0 && stop===arr.length-1){
+        arr = checkArray(arr)
+        start = 0
+        stop = arr.length-1
+        console.log(arr)
+    }
+    if(start>stop) return null
     
-    
+    let mid = Math.floor((start+stop)/2)
+
+    let node = new Node(arr[mid])
+    node.left = balancedBST(arr,start,mid-1)
+    node.right = balancedBST(arr,mid+1,stop)
+    return node
 }
 
-let arr = [4,7,7,1,5,3,2,8,9,4,1,6,8,3,2]
-balancedBTS(arr,0,arr.length-1)
+
+
+       
+let arr = [0,1,9,21,3,4]
+prettyPrint(balancedBST(arr,0,arr.length-1))
