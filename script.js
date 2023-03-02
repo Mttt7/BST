@@ -79,29 +79,36 @@ class Node{
 }
 
 
-
-
-
-function balancedBST(arr, start, stop){
-   
-    if(start===0 && stop===arr.length-1){
-        arr = checkArray(arr)
-        start = 0
-        stop = arr.length-1
-        console.log(arr)
+class Tree{
+    constructor(array){
+        this.root = this.buildTree(array,0,array.length-1)
+       
     }
-    if(start>stop) return null
-    
-    let mid = Math.floor((start+stop)/2)
 
-    let node = new Node(arr[mid])
-    node.left = balancedBST(arr,start,mid-1)
-    node.right = balancedBST(arr,mid+1,stop)
-    return node
+    buildTree(arr, start, stop){
+   
+        if(start===0 && stop===arr.length-1){
+            arr = checkArray(arr)
+            start = 0
+            stop = arr.length-1
+            console.log(arr)
+        }
+        if(start>stop) return null
+        
+        let mid = Math.floor((start+stop)/2)
+    
+        let node = new Node(arr[mid])
+        node.left = this.buildTree(arr,start,mid-1)
+        node.right = this.buildTree(arr,mid+1,stop)
+        return node
+    }
 }
+
+
 
 
 
        
 let arr = [0,1,9,21,3,4]
-prettyPrint(balancedBST(arr,0,arr.length-1))
+const tree1 = new Tree(arr)
+prettyPrint(tree1.root)
