@@ -56,15 +56,7 @@ function sortArray(arr){
 
     
 }
-const prettyPrint = (node, prefix = '', isLeft = true) => {
-    if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-    }
-    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-    if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-    }
-  }
+
 
 
 
@@ -81,14 +73,16 @@ class Node{
 
 class Tree{
     constructor(array){
+        
         this.root = this.buildTree(array,0,array.length-1)
-       
+        this.length = null
     }
 
     buildTree(arr, start, stop){
    
         if(start===0 && stop===arr.length-1){
             arr = checkArray(arr)
+            this.length = arr.length
             start = 0
             stop = arr.length-1
             console.log(arr)
@@ -102,6 +96,49 @@ class Tree{
         node.right = this.buildTree(arr,mid+1,stop)
         return node
     }
+
+    print(node=this.root, prefix = '', isLeft = true){
+      if (node.right !== null) {
+        this.print(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+      }
+      console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+      if (node.left !== null) {
+        this.print(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+      }
+    }
+
+    insertValue(root=this.root,value){
+      
+      let current = root
+      if(value>current.data){
+        if(current.right!==null){
+          current = current.right
+          this.insertValue(current,value)
+        }else{
+          const newNode = new Node(value)
+          current.right = newNode
+        }
+      }
+      else if(value<current.data){
+        if(current.left!==null){
+          current = current.left
+          this.insertValue(current,value)
+        }else{
+          current.left = newNode
+        }
+      }
+      else if(value===current.data){
+        console.log('You cant insert ',value, 'its been already inserted')
+        this.print
+      }
+
+      this.print()
+    }
+
+    search(root,value){
+
+    }
+
 }
 
 
@@ -109,6 +146,8 @@ class Tree{
 
 
        
-let arr = [0,1,9,21,3,4]
+let arr = [0,1,9,21,3,4,3]
 const tree1 = new Tree(arr)
-prettyPrint(tree1.root)
+tree1.print()
+console.log('---------------')
+tree1.insertValue(1)
