@@ -194,6 +194,24 @@ class Tree{
       return arr
     }
 
+    preOrder(root=this.root,arr=[]){
+      if(root===null) return 
+      arr.push(root.data)
+      this.preOrder(root.left,arr)
+      this.preOrder(root.right,arr)
+      return arr
+    }
+
+    postOrder(root=this.root,arr=[]){
+      if(root===null) return 
+      this.postOrder(root.left,arr)
+      this.postOrder(root.right,arr)
+      arr.push(root.data)
+      return arr
+    }
+
+
+
 
    search(value, root=this.root){
     let current = root
@@ -244,3 +262,6 @@ tree2.deleteValue(4)
 console.log('-----')
 tree2.print()
 
+console.log('preorder:',tree2.preOrder())
+console.log('postorder:',tree2.postOrder())
+console.log('inorder:',tree2.inOrder())
