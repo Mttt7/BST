@@ -108,7 +108,7 @@ class Tree{
     }
   }
 
-  insertValue(value,root=this.root){
+  insertValue(value, root=this.root){
     if(root===null){
       this.root = new Node(value)
       return
@@ -140,8 +140,26 @@ class Tree{
     
   }
 
-  search(root,value){
+  deleteValue(value, root=this.root){
 
+  }
+
+
+   search(value, root=this.root){
+    let current = root
+    if(current===null) return null
+    if(current.data===value) return current
+    else if(value>current.data){
+      current = current.right
+      current = this.search(value,current) 
+      
+    }
+    else if(value<current.data) {
+      current = current.left
+      current = this.search(value,current) 
+    }
+
+    return current
   }
 
 }
@@ -153,20 +171,11 @@ class Tree{
      
 let arr = []
 const tree1 = new Tree(arr)
-tree1.print()
-console.log('---------------')
-tree1.insertValue(31)
-tree1.print()
-console.log('---------------')
-tree1.insertValue(0)
-tree1.print()
-console.log('---------------')
-tree1.insertValue(4)
-tree1.print()
-console.log('---------------')
-tree1.insertValue(1)
-tree1.print()
-console.log('---------------')
-tree1.insertValue(34)
-tree1.print()
-console.log('---------------')
+
+const tree2 = new Tree([1,9,0,4,2,6,7])
+tree2.print()
+console.log('------')
+tree2.insertValue(11)
+tree2.print()
+console.log(tree2.search(11))
+
