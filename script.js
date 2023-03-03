@@ -157,7 +157,7 @@ class Tree{
   }
   
 
- deleteRec(value,root){
+  deleteRec(value,root){
     if(root===null){ 
       console.log('no such value in the tree: ','[',value,']')
       return null
@@ -192,28 +192,25 @@ class Tree{
       arr.push(root.data)
       this.inOrder(root.right,arr)
       return arr
-    }
+  }
 
-    preOrder(root=this.root,arr=[]){
+  preOrder(root=this.root,arr=[]){
       if(root===null) return 
       arr.push(root.data)
       this.preOrder(root.left,arr)
       this.preOrder(root.right,arr)
       return arr
-    }
+  }
 
-    postOrder(root=this.root,arr=[]){
+  postOrder(root=this.root,arr=[]){
       if(root===null) return 
       this.postOrder(root.left,arr)
       this.postOrder(root.right,arr)
       arr.push(root.data)
       return arr
-    }
+  }
 
-
-
-
-   search(value, root=this.root){
+  search(value, root=this.root){
     let current = root
     if(current===null) return null
     if(current.data===value) return current
@@ -230,6 +227,14 @@ class Tree{
     return current
   }
 
+  height(root=this.root){
+    if(root===null) return 0
+
+    let leftHeight = this.height(root.left)
+    let rightHeight = this.height(root.right)
+    return Math.max(leftHeight,rightHeight)+1
+  }
+
 }
 
 
@@ -242,26 +247,9 @@ const tree1 = new Tree(arr)
 
 const tree2 = new Tree([1,9,11,22,33,31,23,32,24,21,0,4,2,6,7])
 tree2.print()
-console.log('------')
-tree2.insertValue(11)
-tree2.print()
 
-tree2.deleteValue(7)
-console.log('-----')
+tree2.insertValue(55)
+tree2.insertValue(56)
+console.log('---')
 tree2.print()
-
-tree2.deleteValue(24)
-console.log('-----')
-tree2.print()
-
-tree2.deleteValue(11)
-console.log('-----')
-tree2.print()
-
-tree2.deleteValue(4)
-console.log('-----')
-tree2.print()
-
-console.log('preorder:',tree2.preOrder())
-console.log('postorder:',tree2.postOrder())
-console.log('inorder:',tree2.inOrder())
+console.log(tree2.height())
