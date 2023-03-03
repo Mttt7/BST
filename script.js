@@ -140,9 +140,59 @@ class Tree{
     
   }
 
-  deleteValue(value, root=this.root){
+
+  minValue(root){
+    let min = root.data
+    while(root.left!==null){
+      min = root.left.data
+      root = root.left
+    }
+    return min
 
   }
+
+
+  deleteValue(value){
+    this.root = this.deleteRec(value,this.root)
+  }
+  
+
+ deleteRec(value,root){
+    if(root===null){ 
+      console.log('no such value in the tree: ','[',value,']')
+      return null
+    }
+
+    if(value<root.data) root.left = this.deleteRec(value,root.left)    
+    else if(value>root.data) root.right = this.deleteRec(value,root.right)
+    
+
+    
+    else if(value===root.data){
+      //node with only one child or no children
+        if(root.left===null) return root.right
+        else if(root.right===null) return root.left 
+
+      //node with two children
+        root.data = this.minValue(root.right)
+        root.right = this.deleteRec(root.data,root.right)
+
+    }
+
+    
+    
+
+    return root
+  }
+
+
+  inOrder(root=this.root,arr=[]){
+      if(root===null) return 
+      this.inOrder(root.left,arr)
+      arr.push(root.data)
+      this.inOrder(root.right,arr)
+      return arr
+    }
 
 
    search(value, root=this.root){
@@ -172,10 +222,25 @@ class Tree{
 let arr = []
 const tree1 = new Tree(arr)
 
-const tree2 = new Tree([1,9,0,4,2,6,7])
+const tree2 = new Tree([1,9,11,22,33,31,23,32,24,21,0,4,2,6,7])
 tree2.print()
 console.log('------')
 tree2.insertValue(11)
 tree2.print()
-console.log(tree2.search(11))
+
+tree2.deleteValue(7)
+console.log('-----')
+tree2.print()
+
+tree2.deleteValue(24)
+console.log('-----')
+tree2.print()
+
+tree2.deleteValue(11)
+console.log('-----')
+tree2.print()
+
+tree2.deleteValue(4)
+console.log('-----')
+tree2.print()
 
