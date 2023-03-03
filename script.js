@@ -228,12 +228,14 @@ class Tree{
   }
 
   height(root=this.root){
-    if(root===null) return 0
+    if(root===null) return -1
 
     let leftHeight = this.height(root.left)
     let rightHeight = this.height(root.right)
     return Math.max(leftHeight,rightHeight)+1
   }
+
+
 
 }
 
@@ -245,11 +247,7 @@ class Tree{
 let arr = []
 const tree1 = new Tree(arr)
 
-const tree2 = new Tree([1,9,11,22,33,31,23,32,24,21,0,4,2,6,7])
-tree2.print()
+const tree2 = new Tree([1,2,3,4,5,6,8,7,9,-2])
 
-tree2.insertValue(55)
-tree2.insertValue(56)
-console.log('---')
 tree2.print()
 console.log(tree2.height())
