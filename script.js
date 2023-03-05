@@ -240,6 +240,21 @@ class Tree{
     return this.height()-this.height(node)
   }
 
+  isBalanced(root=this.root){
+    if(root == null) return true
+ 
+        
+    
+    let lh = this.height(root.left)
+    let rh = this.height(root.right)
+ 
+    
+    if (Math.abs(lh - rh) <= 1 && this.isBalanced(root.left)== true && this.isBalanced( root.right) == true){
+      return true
+    }
+        
+    return false
+}
 }
 
 
@@ -253,5 +268,11 @@ const tree1 = new Tree(arr)
 const tree2 = new Tree([1,2,3,4,5,6,8,7,9,-2])
 
 tree2.print()
-console.log(tree2.height(tree2.search(8)))
-console.log(tree2.depth(8))
+
+
+console.log(tree2.isBalanced())
+console.log('---------')
+tree2.insertValue(11)
+tree2.print()
+console.log('---------')
+console.log(tree2.isBalanced())
