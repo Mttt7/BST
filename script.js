@@ -73,7 +73,6 @@ class Node{
 
 class Tree{
   constructor(array){
-      
       this.root = this.buildTree(array,0,array.length-1)
       this.length = null
   }
@@ -85,7 +84,7 @@ class Tree{
           this.length = arr.length
           start = 0
           stop = arr.length-1
-          console.log(arr)
+          
       }
       if(start>stop) return null
       
@@ -94,6 +93,7 @@ class Tree{
       let node = new Node(arr[mid])
       node.left = this.buildTree(arr,start,mid-1)
       node.right = this.buildTree(arr,mid+1,stop)
+
       return node
   }
 
@@ -111,6 +111,7 @@ class Tree{
   insertValue(value, root=this.root){
     if(root===null){
       this.root = new Node(value)
+
       return
     }
     let current = root
@@ -147,8 +148,8 @@ class Tree{
       min = root.left.data
       root = root.left
     }
-    return min
 
+    return min
   }
 
 
@@ -160,14 +161,12 @@ class Tree{
   deleteRec(value,root){
     if(root===null){ 
       console.log('no such value in the tree: ','[',value,']')
+
       return null
     }
 
     if(value<root.data) root.left = this.deleteRec(value,root.left)    
     else if(value>root.data) root.right = this.deleteRec(value,root.right)
-    
-
-    
     else if(value===root.data){
       //node with only one child or no children
         if(root.left===null) return root.right
@@ -178,9 +177,6 @@ class Tree{
         root.right = this.deleteRec(root.data,root.right)
 
     }
-
-    
-    
 
     return root
   }
@@ -199,6 +195,7 @@ class Tree{
       arr.push(root.data)
       this.preOrder(root.left,arr)
       this.preOrder(root.right,arr)
+
       return arr
   }
 
@@ -207,6 +204,7 @@ class Tree{
       this.postOrder(root.left,arr)
       this.postOrder(root.right,arr)
       arr.push(root.data)
+
       return arr
   }
 
@@ -217,7 +215,6 @@ class Tree{
     else if(value>current.data){
       current = current.right
       current = this.search(value,current) 
-      
     }
     else if(value<current.data) {
       current = current.left
@@ -232,47 +229,75 @@ class Tree{
 
     let leftHeight = this.height(root.left)
     let rightHeight = this.height(root.right)
+
     return Math.max(leftHeight,rightHeight)+1
   }
 
-  depth(value = this.root.data){
-    let node = this.search(value)
-    return this.height()-this.height(node)
+  
+  depth(root=this.root, value){
+    if(root == null) return -1;
+    var dist = -1;
+    if ((root.data === value)|| (dist = this.depth(root.left, value)) >= 0 || (dist = this.depth(root.right, value)) >= 0){
+      return dist + 1;
+    }
+    
+    return dist;
   }
+  
 
   isBalanced(root=this.root){
     if(root == null) return true
- 
-        
-    
+
     let lh = this.height(root.left)
     let rh = this.height(root.right)
  
-    
     if (Math.abs(lh - rh) <= 1 && this.isBalanced(root.left)== true && this.isBalanced( root.right) == true){
       return true
-    }
-        
+    }  
+
     return false
+  }
+
+  rebalance(){
+    let arr = this.inOrder()
+    this.root = this.buildTree(arr,0,arr.length-1)
+  }
 }
-}
 
 
+//------------------------//
 
-
-
-     
-let arr = []
+//--Creating tree--//
+let arr = [9,2,5,8,1,7,6,5]
 const tree1 = new Tree(arr)
 
-const tree2 = new Tree([1,2,3,4,5,6,8,7,9,-2])
+//--printing--deleting--inserting//
+tree1.print()
+tree1.deleteValue(9)
+console.log('-------')
+tree1.print()
+console.log('isBalanced?: ',tree1.isBalanced()) 
+tree1.insertValue(8)
+tree1.insertValue(18)
+tree1.insertValue(16)
+tree1.insertValue(-2)
+console.log('-------')
+tree1.print()
+console.log('isBalanced?: ',tree1.isBalanced())
+tree1.rebalance() //rebalance tree//
+console.log('-------')
+tree1.print()
+console.log('isBalanced?: ',tree1.isBalanced())
+console.log('--------------------')
+//--preOrder--postOrder--InOrder--//
+console.log('preOrder: ',tree1.preOrder())
+console.log('postOrder: ',tree1.postOrder())
+console.log('inOrder: ',tree1.inOrder())
 
-tree2.print()
+//depth and height of tree//
+console.log('height of tree: ',tree1.height())
+console.log('depth of tree: ',tree1.depth())
+//depth and height of given node//
+console.log('height of 7: ',tree1.height(tree1.search(7)))
+console.log('depth of 7: ',tree1.depth(undefined,7))
 
-
-console.log(tree2.isBalanced())
-console.log('---------')
-tree2.insertValue(11)
-tree2.print()
-console.log('---------')
-console.log(tree2.isBalanced())
