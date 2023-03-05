@@ -235,7 +235,10 @@ class Tree{
     return Math.max(leftHeight,rightHeight)+1
   }
 
-
+  depth(value = this.root.data){
+    let node = this.search(value)
+    return this.height()-this.height(node)
+  }
 
 }
 
@@ -250,4 +253,5 @@ const tree1 = new Tree(arr)
 const tree2 = new Tree([1,2,3,4,5,6,8,7,9,-2])
 
 tree2.print()
-console.log(tree2.height())
+console.log(tree2.height(tree2.search(8)))
+console.log(tree2.depth(8))
